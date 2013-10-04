@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">UMBusTracking</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="button">Connect</string>
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_test2">Test2</string>
+    <string name="title_activity_view_stops_details">View Bus Stops Details/Information</string>
+    <string name="viewstoptitle">Error</string>
+    <string name="title_activity_nearest_stop">NearestStop</string>
+    <string name="displaystop">error</string>
+
+    <color name="background_lime">#A9D0F5</color>
+
+    <string name="routename">On Route</string>
+    <string name="stopname">Bus Stop</string>
+    <string name="title_activity_display_busses">DisplayBusses</string>
+
+</resources>
