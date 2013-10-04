@@ -1,0 +1,494 @@
+package com.example.umbustracker;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.location.*;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.content.*;
+import android.graphics.Color;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+import android.provider.*;
+import android.widget.*;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+
+public class MainActivity extends PreferenceActivity implements LocationListener {
+	//protected LocationListener listener =this;
+	private TextView latituteField;
+	  private TextView longitudeField;
+	  private LocationManager locationManager;
+	  private String provider;
+	  private TextView Providerstatus;
+	  private TextView Providerlist;
+	  private TextView viewPlate;
+	  private int i=0;
+	 private String provider1;
+	 ProgressDialog pDialog;
+	 String result = null;
+		InputStream is = null;
+		private String latit;
+	   private String longit;
+	   private ToggleButton tg;
+	   private boolean toggle;
+	   RadioButton first;
+	   RadioButton last;
+	   private TextView route1;
+	   int num;
+	
+	
+	
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		locationManager =(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		
+		
+		
+			SharedPreferences sharedPreferences = PreferenceManager
+					.getDefaultSharedPreferences(this);
+//		boolean checkBoxValue = sharedPreferences.getBoolean("CheckBox_Value", false);
+			String name = sharedPreferences.getString("storedName", null);
+			num = sharedPreferences.getInt("storedroute", -1);
+			System.out.println(num);
+
+			    // handle the value
+			
+			SharedPreferences.OnSharedPreferenceChangeListener();
+			
+			if(name!=null&&num!=-1){
+	
+		
+		try{
+		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			Toast.makeText(this, "GPS is not turned on, please turn on GPS", Toast.LENGTH_SHORT).show();
+		}
+		
+		
+		}
+		
+		catch(Exception e){
+			Toast.makeText(this, "problematic", Toast.LENGTH_SHORT).show();
+		}
+		
+		
+		
+		try{
+		latituteField= (TextView)findViewById(R.id.TextView02);
+		longitudeField=(TextView)findViewById(R.id.TextView04);
+		//Button button1= (Button)findViewById(R.id.button1);
+	//	Button button2=(Button)findViewById(R.id.button2);
+		viewPlate= (TextView)findViewById(R.id.textView1);
+		route1= (TextView)findViewById(R.id.textView4);
+		//Criteria criteria = new Criteria();
+		
+		viewPlate.setText(name);
+		switch(num){
+		case R.id.routeA:route1.setText("A");
+		break;
+		case R.id.routeB:route1.setText("B");
+		break;
+		case R.id.routeC:route1.setText("C");
+		break;
+		case R.id.routeD:route1.setText("D");
+		break;
+		case R.id.routeE:route1.setText("E");
+		break;
+		default:route1.setText("Error");
+		break;
+		}
+		//route1.setText(num);
+		//Toast.makeText(getApplicationContext(),num, Toast.LENGTH_SHORT).show();
+		//provider =locationManager.getBestProvider(criteria, false);
+		Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        
+        Providerlist= (TextView)findViewById(R.id.providerlist);
+        //locationManager.addGpsStatusListener(gstatus);
+        
+         first  = (RadioButton)findViewById(R.id.radiotofirst);
+         last  = (RadioButton)findViewById(R.id.radiotolast);
+         
+        RadioGroup group=(RadioGroup) findViewById(R.id.radiostopsdir);
+
+        group.setOnCheckedChangeListener(new OnCheckedChangeListener() 
+           {
+
+            public void onCheckedChanged(RadioGroup group, int checkedId) 
+               {
+                // TODO Auto-generated method stub
+                if(first.isChecked())
+                  {
+                     Providerlist.setText("first station");
+                            
+                  }
+                else if(last.isChecked())
+                  {
+                    Providerlist.setText("last station");
+
+                  }
+             }
+        });
+        
+       
+        
+		try{
+		
+		if(location!=null){
+			onLocationChanged(location);
+		}
+		else{
+			latituteField.setText("error");
+			longitudeField.setText("error");
+		}
+	
+		}
+		catch(Exception e){
+			Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*button1.setOnClickListener(new View.OnClickListener() {
+			
+			
+			
+			
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			//	Location location = locationManager.getLastKnownLocation(provider);
+				Criteria criteria = new Criteria();
+			//	provider =locationManager.getBestProvider(criteria, false);
+				if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+					
+					try{
+				//	Providerstatus.setText("Provider "+LocationManager.GPS_PROVIDER+" is enabled");
+					PendingIntent intent = null;
+					
+					Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					latituteField.setText(String.valueOf((double)location.getLatitude()));
+					longitudeField.setText(String.valueOf((double)location.getLongitude()));
+					}
+					
+					catch(Exception e){
+						Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				}
+				else{
+				//	Providerstatus.setText("Provider is down");
+				}
+				
+				
+			}
+			}
+		);
+		
+		button2.setOnClickListener(new View.OnClickListener(){
+			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			//	Location location = locationManager.getLastKnownLocation(provider);
+				Criteria criteria = new Criteria();
+				//provider =locationManager.getBestProvider(criteria, false);
+				if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+					
+					try{
+					//Providerstatus.setText("Provider "+LocationManager.NETWORK_PROVIDER+" is enabled");
+					PendingIntent intent = null;
+					
+					Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+					latituteField.setText(String.valueOf((double)location.getLatitude()));
+					longitudeField.setText(String.valueOf((double)location.getLongitude()));
+					}
+					
+					catch(Exception e){
+						Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				}
+				else{
+					//Providerstatus.setText("Provider is down");
+				}
+				
+				
+			}
+			
+		});
+		*/
+		
+		
+		toggle= false;
+		
+		if(toggle==true)
+			 Providerlist.setText("true");
+		 else
+			 Providerlist.setText("false");
+		
+		
+		 tg = (ToggleButton) findViewById(R.id.toggleButton1);
+	        tg.setOnClickListener(new View.OnClickListener(){
+	        	
+	        	public void onClick(View v){
+	        		
+	        		 if((tg.isChecked()))
+	        		    {
+	        		      toggle=true;
+	        			 tg.setBackgroundColor(0xfff00000);
+	        		    }
+	        		    else
+	        		    {
+	        		            
+	        		        toggle=false;
+	        		        tg.setBackgroundColor(Color.GREEN);
+	        		    }
+	        		 
+	        		 if(toggle==true)
+	        			 Providerlist.setText("true");
+	        		 else
+	        			 Providerlist.setText("false");
+	        	}
+	        	
+	        });
+		
+		
+		
+		int flag=0;
+		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+			//Providerstatus.setText("Currently using GPS satellites to get location.");
+			
+		}
+		
+		else if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+			//Providerstatus.setText("Currently using Internet to get location.");
+			flag=1;
+		}
+		
+		else{
+			//Providerstatus.setText("Cannot get current GPS location.");
+		}
+		
+		
+		
+		provider1=LocationManager.GPS_PROVIDER;
+		 if(flag==1){
+			 provider1=LocationManager.NETWORK_PROVIDER;
+			 Toast.makeText(this, provider1,
+				        Toast.LENGTH_SHORT).show();
+		 }
+		 
+		 locationManager.requestLocationUpdates(provider1, 15000,
+	                0, new LocationListener() {
+			// int i=0;
+
+	                    @Override
+	                    public void onStatusChanged(String provider,
+	                            int status, Bundle extras) {
+
+	                    }
+
+	                    @Override
+	                    public void onProviderEnabled(String provider) {
+
+	                    }
+
+	                    @Override
+	                    public void onProviderDisabled(String provider) {
+
+	                    }
+
+	                    @Override
+	                    public void onLocationChanged(Location location) {
+	                        // if this is a gps location, we can use it
+	                    	latit=String.valueOf((double)location.getLatitude());
+	                    	latituteField.setText(latit);
+	                    	longit=String.valueOf((double)location.getLongitude());
+	                		longitudeField.setText(longit);
+	                	//	Providerlist.setText("gps update number "+i++);
+	                		//Providerstatus.setText("gps is updated every 5 seconds");
+	                		try{
+	                		sendgpsdata sendo =new sendgpsdata();
+	                		sendo.execute();
+	                		Toast.makeText(getApplicationContext(), "sent", Toast.LENGTH_SHORT).show();}
+	                		catch(Exception e){
+	                			Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
+	                		}
+	                		
+	                    }
+	                });
+		
+	
+	}
+		
+		catch(Exception e){
+			 Toast.makeText(this, "Disabled provider " + provider,
+				        Toast.LENGTH_SHORT).show();
+		}
+		
+			}
+			else{
+				Intent intent1 = new Intent(this,SetPlateNum.class);
+	            intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+	           // this.getIntent()
+	            startActivity(intent1);
+	            finish();
+			}
+	}
+			
+	
+
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.mainmenu, menu);
+		return true;
+	}
+	
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    
+	    case R.id.settings:
+	    	Intent intent1 = new Intent(this,SetPlateNum.class);
+            intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+           // this.getIntent()
+            startActivity(intent1);
+            return true;
+	   
+
+	    default:
+	      break;
+	    }
+
+	    return true;
+	  } 
+
+	
+	
+	
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		latit=String.valueOf((double)location.getLatitude());
+    	latituteField.setText(latit);
+    	longit=String.valueOf((double)location.getLongitude());
+		longitudeField.setText(longit);
+		try{
+			sendgpsdata sendo =new sendgpsdata();
+			sendo.execute();
+			Toast.makeText(getApplicationContext(), "sent", Toast.LENGTH_SHORT).show();}
+			catch(Exception e){
+				Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
+				
+			}
+		
+		
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		 Toast.makeText(this, "Disabled provider " + provider,
+			        Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onProviderEnabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+	
+	 class sendgpsdata extends AsyncTask<String, String, String> {
+		 
+	        /**
+	         * Before starting background thread Show Progress Dialog
+	         * */
+	        @Override
+	        protected void onPreExecute() {
+	            super.onPreExecute();
+	          //  pDialog = new ProgressDialog(MainActivity.this);
+	         //   pDialog.setMessage("Sending GPS to server..");
+	         //   pDialog.setIndeterminate(false);
+	        //    pDialog.setCancelable(true);
+	         //   pDialog.show();
+	        }
+	 
+	        /**
+	         * Creating product
+	         * */
+	        protected String doInBackground(String... args) {
+	            
+	            // Building Parameters
+	        	ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+	        	nameValuePairs.add(new BasicNameValuePair("latitude",latit));
+	        	nameValuePairs.add(new BasicNameValuePair("longitude",longit));
+	        	try{
+	        	 HttpClient httpclient = new DefaultHttpClient();
+	        	 HttpPost httppost = new HttpPost("http://testing1515.freeiz.com/update.php");
+	        	 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+	        	 HttpResponse response = httpclient.execute(httppost);
+	        	 HttpEntity entity = response.getEntity();
+	        	 is = entity.getContent();
+	        	 is.close();
+	        	 
+	        	 }catch(Exception e){
+	        	 Log.e("log_tag", "Error in http connection"+e.toString());
+	        	 Toast.makeText(getApplicationContext(), "failed to connect", Toast.LENGTH_SHORT).show();
+	        	 }
+	 
+	            return null;
+	        }
+	 
+	        /**
+	         * After completing background task Dismiss the progress dialog
+	         * **/
+	        protected void onPostExecute(String file_url) {
+	            // dismiss the dialog once done
+	         //   pDialog.dismiss();
+	        }
+	 
+	    }
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,197 @@
+package com.example.umbustracker;
+
+import android.os.Bundle;
+import android.location.*;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.view.Menu;
+import android.view.View;
+import android.content.*;
+import android.provider.*;
+import android.widget.*;
+
+public class MainActivity extends Activity implements LocationListener{
+	//protected LocationListener listener =this;
+	private TextView latituteField;
+	  private TextView longitudeField;
+	  private LocationManager locationManager;
+	  private String provider;
+	  private TextView Providerstatus;
+	  private TextView Providerlist;
+	  private int i=0;
+	 
+	  
+	 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		latituteField= (TextView)findViewById(R.id.TextView02);
+		longitudeField=(TextView)findViewById(R.id.TextView04);
+		Button button1= (Button)findViewById(R.id.button1);
+		Button button2=(Button)findViewById(R.id.button2);
+		locationManager =(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		Criteria criteria = new Criteria();
+		
+		
+		//provider =locationManager.getBestProvider(criteria, false);
+		Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Providerstatus= (TextView)findViewById(R.id.TextView05);
+        Providerlist= (TextView)findViewById(R.id.providerlist);
+        //locationManager.addGpsStatusListener(gstatus);
+        
+       
+        
+		try{
+		
+		if(location!=null){
+			onLocationChanged(location);
+		}
+		else{
+			latituteField.setText("error");
+			longitudeField.setText("error");
+		}
+	
+		}
+		catch(Exception e){
+			Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
+		button1.setOnClickListener(new View.OnClickListener() {
+			
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			//	Location location = locationManager.getLastKnownLocation(provider);
+				Criteria criteria = new Criteria();
+			//	provider =locationManager.getBestProvider(criteria, false);
+				if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+					
+					try{
+					Providerstatus.setText("Provider "+LocationManager.GPS_PROVIDER+" is enabled");
+					PendingIntent intent = null;
+					
+					Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+					latituteField.setText(String.valueOf((int)location.getLatitude()));
+					longitudeField.setText(String.valueOf((int)location.getLongitude()));
+					}
+					
+					catch(Exception e){
+						Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				}
+				else{
+					Providerstatus.setText("Provider is down");
+				}
+				
+				
+			}
+			}
+		);
+		
+		button2.setOnClickListener(new View.OnClickListener(){
+			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			//	Location location = locationManager.getLastKnownLocation(provider);
+				Criteria criteria = new Criteria();
+				//provider =locationManager.getBestProvider(criteria, false);
+				if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+					
+					try{
+					Providerstatus.setText("Provider "+LocationManager.NETWORK_PROVIDER+" is enabled");
+					PendingIntent intent = null;
+					
+					Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+					latituteField.setText(String.valueOf((int)location.getLatitude()));
+					longitudeField.setText(String.valueOf((int)location.getLongitude()));
+					}
+					
+					catch(Exception e){
+						Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				}
+				else{
+					Providerstatus.setText("Provider is down");
+				}
+				
+				
+			}
+			
+		});
+		
+		
+		
+		 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000,
+	                0, new LocationListener() {
+			// int i=0;
+
+	                    @Override
+	                    public void onStatusChanged(String provider,
+	                            int status, Bundle extras) {
+
+	                    }
+
+	                    @Override
+	                    public void onProviderEnabled(String provider) {
+
+	                    }
+
+	                    @Override
+	                    public void onProviderDisabled(String provider) {
+
+	                    }
+
+	                    @Override
+	                    public void onLocationChanged(Location location) {
+	                        // if this is a gps location, we can use it
+	                    	latituteField.setText(String.valueOf((int)location.getLatitude()));
+	                		longitudeField.setText(String.valueOf((int)location.getLongitude()));
+	                		Providerlist.setText("gps update number "+i++);
+	                		Providerstatus.setText("gps is updated every 2 seconds");
+	                		
+	                    }
+	                });
+		
+	
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	
+	
+	
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		latituteField.setText(String.valueOf((int)location.getLatitude()));
+		longitudeField.setText(String.valueOf((int)location.getLongitude()));
+		
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		 Toast.makeText(this, "Disabled provider " + provider,
+			        Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onProviderEnabled(String arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+}

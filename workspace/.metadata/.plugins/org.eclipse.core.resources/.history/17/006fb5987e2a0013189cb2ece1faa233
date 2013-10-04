@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/appbackground"
+        android:padding="10sp"
+        android:text="Please Set Your Bus Plate Number here."
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Enter Your Name..."
+        android:padding="15sp" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Your Route Here:"
+        android:padding="20sp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/radioButtonaccident"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accident" />
+
+        <RadioButton
+            android:id="@+id/radioButtonincident"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Incident" />
+
+        <RadioButton
+            android:id="@+id/radioButtonconcern"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Concern" />
+    </RadioGroup>
+
+</LinearLayout>

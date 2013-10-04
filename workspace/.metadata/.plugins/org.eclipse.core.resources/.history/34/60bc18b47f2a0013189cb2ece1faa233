@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/appbackground"
+        android:padding="10sp"
+        android:text="Please Set Your Bus Plate Number here."
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Enter Your Name..."
+        android:padding="15sp" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:padding="10sp"
+        android:background="@color/appbackground"
+        android:text="Set Your Route Here:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0B0B61" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/routeA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Route A" />
+
+        <RadioButton
+            android:id="@+id/routeB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Route B" />
+
+        <RadioButton
+            android:id="@+id/routeC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Route C" />
+        <RadioButton
+            android:id="@+id/routeD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Route D" />
+        <RadioButton
+            android:id="@+id/routeE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Route E" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+
+</LinearLayout>

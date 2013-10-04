@@ -1,0 +1,39 @@
+package com.example.umbustracking;
+
+import com.google.android.gms.maps.model.LatLng;
+
+public class bussholder {
+
+	private LatLng coordinates;
+	private boolean emergency;
+	private int routeid;
+	private String direction;
+	
+	
+	public void setCoordinates(LatLng coordinates){
+		this.coordinates=coordinates;
+	}
+	public LatLng getCoordinates(){
+		return coordinates;
+	}
+	
+	public void setEmergency(boolean emergency){
+		this.emergency=emergency;
+	}
+	
+	public boolean getEmergency(){
+		return emergency;
+	}
+	
+	public void setRouteId(int routeid){
+		this.routeid=routeid;
+	}
+	
+	public int getRouteId(){
+		return routeid;
+	}
+	
+	public void setDirection(String direction){
+		this.direction=direction;
+	}
+}

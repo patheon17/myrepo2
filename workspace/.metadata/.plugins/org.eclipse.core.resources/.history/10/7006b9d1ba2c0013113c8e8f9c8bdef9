@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D8F6CE"
+    tools:context=".NearestStop" >
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/background_lime"
+        android:padding="10sp"
+        android:text="Nearest Bus Stop"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#8A0829" 
+        />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stops"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/onroute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/routed"
+        android:layout_alignLeft="@+id/displaystop"
+        android:text="@string/routename"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/routed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/busstop"
+        android:layout_alignLeft="@+id/onroute"
+        android:layout_marginBottom="25dp"
+        android:gravity="center"
+        android:text="Error"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/displaystop"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="14dp"
+        android:text="The Nearest Bus Stop is"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/displaystop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/onroute"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_marginBottom="28dp"
+        android:text="@string/displaystop"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/busstop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/onroute"
+        android:layout_centerVertical="true"
+        android:text="@string/stopname"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/stops"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/busstop"
+        android:layout_below="@+id/busstop"
+        android:text="Error"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

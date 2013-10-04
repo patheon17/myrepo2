@@ -1,0 +1,119 @@
+package com.example.umbustracker;
+
+import android.view.Menu;
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+
+public class SetPlateNum extends Activity implements OnClickListener{
+
+	CheckBox checkBox;
+	EditText editText;
+	Button button;
+ RadioButton routeA;
+ RadioButton routeB;
+ RadioButton routeC;
+ RadioButton routeD;
+ RadioButton routeE;
+ RadioGroup group;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_set_plate_num);
+
+		//checkBox = (CheckBox) findViewById(R.id.checkBox1);
+		editText = (EditText) findViewById(R.id.editText1);
+		button = (Button) findViewById(R.id.button1);
+		routeA  = (RadioButton)findViewById(R.id.routeA);
+		routeB  = (RadioButton)findViewById(R.id.routeB);
+		routeC  = (RadioButton)findViewById(R.id.routeC);
+		routeD  = (RadioButton)findViewById(R.id.routeD);
+		routeE  = (RadioButton)findViewById(R.id.routeE);
+		
+		
+		 group=(RadioGroup) findViewById(R.id.routesdir);
+
+        group.setOnCheckedChangeListener(new OnCheckedChangeListener() 
+           {
+
+            public void onCheckedChanged(RadioGroup group, int checkedId) 
+               {
+                // TODO Auto-generated method stub
+                if(routeA.isChecked()){
+                	Toast.makeText(getApplicationContext(), group.getCheckedRadioButtonId(), Toast.LENGTH_SHORT).show();
+                }
+                else if(routeB.isChecked()){
+                	Toast.makeText(getApplicationContext(), group.getCheckedRadioButtonId(), Toast.LENGTH_SHORT).show();
+                }
+             }
+        });
+		
+		
+		button.setOnClickListener(this);
+		loadSavedPreferences();
+	}
+
+	private void loadSavedPreferences() {
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+	//	boolean checkBoxValue = sharedPreferences.getBoolean("CheckBox_Value", false);
+		String name = sharedPreferences.getString("storedName", "");
+		int value = sharedPreferences.getInt("storedroute", -1);
+	//	if (checkBoxValue) {
+	//		checkBox.setChecked(true);
+	//	} else {
+	//		checkBox.setChecked(false);
+	//	}
+
+		editText.setText(name);
+		if(value!=-1){
+			group.check(value);
+		}
+	}
+
+	private void savePreferences1(String key, int value) {
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		Editor editor = sharedPreferences.edit();
+		editor.putInt(key, value);
+		editor.commit();
+	}
+
+	private void savePreferences(String key, String value) {
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		Editor editor = sharedPreferences.edit();
+		editor.putString(key, value);
+		editor.commit();
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		//savePreferences("CheckBox_Value", checkBox.isChecked());
+	//	if (checkBox.isChecked())
+		
+		if(group.getCheckedRadioButtonId()==-1){
+			
+		}
+		else{
+			savePreferences("storedName", editText.getText().toString());
+			savePreferences1("storedroute",  group.getCheckedRadioButtonId());
+
+		finish();
+		}
+	}
+}

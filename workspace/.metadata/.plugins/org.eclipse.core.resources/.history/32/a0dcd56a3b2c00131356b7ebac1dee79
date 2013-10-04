@@ -1,0 +1,62 @@
+package com.example.umbustracking;
+
+import java.util.List;
+
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
+
+public class calcDistance {
+
+	float distance1=0;
+	float [] dist = new float[1];
+	float temp=0;
+	 int locator=0;
+	
+	public calcDistance(){
+	}
+	
+	
+	
+	public float onedistance(LatLng source, LatLng destination){
+		Location.distanceBetween(source.latitude, source.longitude, destination.latitude, destination.longitude, dist);
+		return dist[0];
+	}
+	
+	public float distance(LatLng source, List<LatLng> stops){
+		
+		try{
+		
+		Location.distanceBetween(source.latitude, source.longitude, stops.get(0).latitude, stops.get(0).longitude, dist);
+		
+		distance1=dist[0];
+		locator=0;
+		
+			   
+		for(int i=1;i<stops.size();i++){
+			Location.distanceBetween(source.latitude, source.longitude, stops.get(i).latitude, stops.get(i).longitude, dist);
+		   temp=dist[0];
+		   if(temp<distance1){
+			   distance1=temp;
+			   locator=i;
+		   }
+		}
+		}
+		catch(Exception e){
+			
+		}
+		return distance1;
+		
+	}
+		public float getDistance(){
+			return distance1;
+		}
+		
+		public int getLocator(){
+			return locator;
+		}
+		
+		
+	
+	
+}
